@@ -1,0 +1,47 @@
+{% extends 'layouts/base_background.html' %}
+{% load static %}
+
+{% block content %}
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50vh; /* Isso centraliza verticalmente */
+        }
+
+        .upload-form {
+            border: 2px solid #007bff; /* Cor da borda do formulário */
+            padding: 20px;
+            text-align: center; /* Alinha os elementos no centro */
+        }
+
+        .upload-input {
+            margin-bottom: 10px; /* Adiciona espaço entre o input e o botão */
+        }
+
+        .upload-button {
+            background-color: #007bff; /* Cor de fundo do botão */
+            color: #fff; /* Cor do texto do botão */
+            border: none; /* Remove a borda do botão */
+            padding: 10px 20px; /* Adiciona preenchimento interno ao botão */
+            cursor: pointer; /* Altera o cursor ao passar sobre o botão */
+        }
+
+        .upload-button:hover {
+            background-color: #0056b3; /* Altera a cor de fundo do botão ao passar o mouse sobre ele */
+        }
+    </style>
+
+    <div class="container">
+        <div class="upload-form">
+            <h1>Upload de Arquivo</h1>
+            <form action="{% url 'excel_upload' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="file" id="fileInput" class="upload-input">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+

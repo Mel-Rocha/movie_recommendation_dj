@@ -1,0 +1,35 @@
+{% extends 'layouts/base_background.html' %}
+{% load static %}
+
+{% block content %}
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50vh; /* Isso centraliza verticalmente */
+        }
+
+        .user-form {
+            border: 2px solid #ccc;
+            padding: 20px;
+        }
+
+        /* Estilos adicionais para o formulário podem ser adicionados aqui */
+
+        button[type="submit"] {
+            margin-top: 10px;
+        }
+    </style>
+
+    <div class="container">
+        <div class="user-form">
+            <h1>User Form</h1>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

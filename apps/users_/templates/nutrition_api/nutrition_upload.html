@@ -1,0 +1,12 @@
+{% extends 'layouts/base_background.html' %}
+{% load static %}
+
+{% block content %}
+    <h1>Upload de Arquivo</h1>
+    <form action="/nutition_api/excel/upload/" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="file" id="fileInput">
+        <button type="submit">Enviar</button>
+    </form>
+{% endblock %}
+

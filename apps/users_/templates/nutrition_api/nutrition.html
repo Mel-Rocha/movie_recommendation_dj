@@ -1,0 +1,40 @@
+{% extends 'layouts/base_background.html' %}
+{% load static %}
+
+{% block content %}
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50vh; /* Isso centraliza verticalmente */
+        }
+
+        .options {
+            text-align: center; /* Alinha os elementos no centro */
+        }
+
+        .btn {
+            margin: 10px; /* Adiciona margem entre os botões */
+            padding: 10px 20px; /* Adiciona preenchimento interno */
+            border: none; /* Remove a borda */
+        }
+
+        .btn-primary {
+            background-color: #007bff; /* Define a cor de fundo para os botões primary */
+            color: #fff; /* Define a cor do texto para os botões primary */
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Define a cor de fundo quando o botão é hover */
+        }
+    </style>
+
+    <div class="container">
+        <div class="options">
+            <h1>Opções</h1>
+            <a href="{% url 'upload_form' %}" class="btn btn-primary">Upload</a>
+            <a href="{% url 'nutrition_list' %}" class="btn btn-primary">Visualização</a>
+        </div>
+    </div>
+{% endblock %}

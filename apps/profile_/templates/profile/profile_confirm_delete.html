@@ -1,0 +1,52 @@
+{% extends 'layouts/base_background.html' %}
+{% load static %}
+
+{% block content %}
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50vh; /* Isso centraliza verticalmente */
+        }
+
+        .delete-confirmation {
+            border: 2px solid #dc3545; /* Cor de borda para botões danger */
+            padding: 20px;
+        }
+
+        .btn-confirm {
+            background-color: #dc3545; /* Cor de fundo para botões danger */
+            color: #fff; /* Cor do texto para botões danger */
+            border: none;
+            padding: 10px 20px;
+            margin-right: 10px;
+        }
+
+        .btn-cancel {
+            background-color: #007bff; /* Cor de fundo para botões primary */
+            color: #fff; /* Cor do texto para botões primary */
+            border: none;
+            padding: 10px 20px;
+            text-decoration: none; /* Remover sublinhado */
+        }
+
+        .btn-cancel:hover {
+            text-decoration: none; /* Remover sublinhado no hover */
+        }
+    </style>
+
+    <div class="container">
+        <div class="delete-confirmation">
+            <h1>Are you sure you want to delete this user?</h1>
+            <p>Name: {{ object.name }}</p>
+            <p>Age: {{ object.age }}</p>
+            <p>Favorite Genre: {{ object.weight }}</p>
+            <form method="post">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-confirm" value="Confirm">
+            </form>
+            <a href="{% url 'profile_detail' object.id %}" class="btn btn-cancel">Cancel</a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'layouts/base_background.html' %}
+{% load static %}
+
+{% block content %}
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50vh; /* Isso centraliza verticalmente */
+        }
+
+        .user-detail {
+            border: 2px solid #ccc;
+            padding: 20px;
+        }
+
+        .user-info {
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            text-align: center;
+        }
+
+        .btn {
+            margin-right: 10px;
+        }
+    </style>
+
+    <div class="container">
+        <div class="user-detail">
+            <h1>User Detail</h1>
+            <div class="user-info">
+                <p>Name: {{ object.name }}</p>
+                <p>Age: {{ object.age }}</p>
+                <p>Favorite Genre: {{ object.weight }}</p>
+
+            </div>
+
+            <div class="buttons">
+                <a href="{% url 'profile_edit' pk=object.pk %}" class="btn btn-primary">Edit</a>
+                <a href="{% url 'profile_delete' pk=object.pk %}" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

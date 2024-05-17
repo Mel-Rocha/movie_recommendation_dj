@@ -1,0 +1,208 @@
+{% load i18n static theme_material_kit %}
+
+
+<!-- Navbar -->
+<div class="container position-sticky z-index-sticky top-0">
+  <div class="row">
+    <div class="col-12">
+      <nav
+        class="navbar navbar-expand-lg  blur border-radius-xl top-0 mt-4 z-index-fixed shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
+        <div class="container-fluid px-0">
+          <a class="navbar-brand font-weight-bolder ms-sm-3" href="/"
+            rel="tooltip" title="Designed and Coded by Creative Tim" data-placement="bottom">
+            Material Kit 2
+          </a>
+          <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon mt-2">
+              <span class="navbar-toggler-bar bar1"></span>
+              <span class="navbar-toggler-bar bar2"></span>
+              <span class="navbar-toggler-bar bar3"></span>
+            </span>
+          </button>
+          <div class="collapse navbar-collapse pt-3 pb-2 py-lg-0 w-100" id="navigation">
+            <ul class="navbar-nav navbar-nav-hover ms-auto">
+              <li class="nav-item dropdown dropdown-hover mx-2">
+                <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="dropdownMenuPages"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="material-icons opacity-6 me-2 text-md">dashboard</i>
+                  Pages
+                  <img src="{% static 'img/down-arrow-dark.svg' %}" alt="down-arrow" class="arrow ms-auto ms-md-2">
+                </a>
+                <div class="dropdown-menu dropdown-menu-animation ms-n3 dropdown-md p-3 border-radius-xl mt-0 mt-lg-3"
+                  aria-labelledby="dropdownMenuPages">
+                  <div class="d-none d-lg-block">
+                    <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1">
+                      Landing Pages
+                    </h6>
+
+                    {% admin_get_menu as app_list %}
+                    {% if app_list %}
+                        {% for app in app_list %}
+                            {% if app.has_perms and not app.pinned %}
+                                <a href="{{ app.url }}" class="dropdown-item border-radius-md" data-bs-toggle="collapse" data-bs-target="#collapse-{{app.app_label}}" >
+                                  <span>{{ app.label|slice:10 }}{% if app.label|length > 10 %}..{% endif %}</span>
+                                </a>
+
+                                {% if app.models %}
+                                  <div class="collapse" id="collapse-{{app.app_label}}">                                                                                                   
+                                    <ul class="flex-column nav">
+                                      {% for model in app.models %}
+                                        {% if model.url %}
+                                          <li class="nav-item{% if 'bootstrap-tables' in segment or model.url in request.path|urlencode %} active {% endif %} list-unstyled">
+                                            <a class="nav-link" href="{{ model.url }}">
+                                              <span class="ms-5 text-dark">{{ model.label }}</span>
+                                            </a>
+                                          </li>
+                                        {% else %}
+                                          <li class="nav-item list-unstyled">{{ model.label }}</li>
+                                        {% endif %}
+                                      {% endfor %}
+                                    </ul>
+                                  </div>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+                  {% if request.user.is_authenticated and not request.user.profile %}
+                      <div class="button-group">
+                        <a href="{% url 'profile_new' %}" class="dropdown-item border-radius-md">
+                            <span>Criar Perfil</span>
+                        </a>
+
+                  {% endif %}
+
+                   {% if request.user.is_authenticated and request.user.profile %}
+                      <div class="button-group">
+                        <a href="{% url 'profile_detail' pk=request.user.profile.pk %}" class="dropdown-item border-radius-md">
+                            <span>My Profile</span>
+                        </a>
+                       <div class="button-group">
+                        <a href="{% url 'nutrition_menu'  %}" class="dropdown-item border-radius-md">
+                            <span>Nutrition</span>
+                        </a>
+                       {% else %}
+                        <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1 mt-3">
+                      Account
+                    </h6>
+                        <a href="{% url 'password_change' %}" class="dropdown-item border-radius-md">
+                          <span>Change Password</span>
+                        </a>
+                        <a href="{% url 'logout' %}" class="dropdown-item border-radius-md">
+                          <span>Logout</span>
+                        </a>
+                      {% endif %}
+
+
+                    {% if request.user.is_authenticated %}
+                      {% if request.user.is_superuser %}
+                        <a href="{% url 'admin:password_change' %}" class="dropdown-item border-radius-md">
+                          <span>Change Password</span>
+                        </a>
+                        <a href="{% url 'admin:logout' %}" class="dropdown-item border-radius-md">
+                          <span>Logout</span>
+                        </a>
+                      {% else %}
+                        <a href="{% url 'password_change' %}" class="dropdown-item border-radius-md">
+                          <span>Change Password</span>
+                        </a>
+                        <a href="{% url 'logout' %}" class="dropdown-item border-radius-md">
+                          <span>Logout</span>
+                        </a>
+                      {% endif %}
+                    {% else %}
+                    <a href="{% url 'login' %}" class="dropdown-item border-radius-md">
+                      <span>Sign In</span>
+                    </a>
+                    <a href="{% url 'register' %}" class="dropdown-item border-radius-md">
+                      <span>Sign Up</span>
+                    </a>
+                    {% endif %}
+                  </div>
+
+                  <div class="d-lg-none">
+                    <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1">
+                      Landing Pages
+                    </h6>
+                    {% if request.user.is_superuser %}
+                    <a href="{% url 'admin:index' %}" class="dropdown-item border-radius-md">
+                    {% else %}
+                      <a href="/" class="dropdown-item border-radius-md">
+                    {% endif %}
+                      <span>Presentation</span>
+                    </a>
+                    <a href="{% url 'about-us' %}" class="dropdown-item border-radius-md">
+                      <span>About Us</span>
+                    </a>
+                    <a href="{% url 'contact-us' %}" class="dropdown-item border-radius-md">
+                      <span>Contact Us</span>
+                    </a>
+                    <a href="{% url 'author' %}" class="dropdown-item border-radius-md">
+                      <span>Author</span>
+                    </a>
+
+                    <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1 mt-3">
+                      Account
+                    </h6>
+
+                    {% if request.user.is_authenticated %}
+                    
+                      {% if request.user.is_superuser %}
+                        <a href="{% url 'admin:password_change' %}" class="dropdown-item border-radius-md">
+                          <span>Change Password</span>
+                        </a>
+                        <a href="{% url 'admin:logout' %}" class="dropdown-item border-radius-md">
+                          <span>Logout</span>
+                        </a>
+                      {% else %}
+                        <a href="{% url 'password_change' %}" class="dropdown-item border-radius-md">
+                          <span>Change Password</span>
+                        </a>
+                        <a href="{% url 'logout' %}" class="dropdown-item border-radius-md">
+                          <span>Logout</span>
+                        </a>
+                      {% endif %}
+                    {% else %}
+                    <a href="{% url 'login' %}" class="dropdown-item border-radius-md">
+                      <span>Sign In</span>
+                    </a>
+                    <a href="{% url 'register' %}" class="dropdown-item border-radius-md">
+                      <span>Sign Up</span>
+                    </a>
+                    {% endif %}
+
+                  </div>
+
+                </div>
+              </li>
+
+
+              </li>
+              {% if request.user.is_authenticated %}
+              <li class="nav-item ms-lg-auto">
+                <a class="nav-link nav-link-icon me-2" href="{% url 'logout' %}">
+                  <i class="fa fa-sign-out me-1"></i>
+                  <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip"
+                    data-bs-placement="bottom" title="Logout">Logout</p>
+                </a>
+              </li>
+              {% else %}
+              <li class="nav-item ms-lg-auto">
+                <a class="nav-link nav-link-icon me-2" href="{% url 'login' %}">
+                  <i class="fa fa-sign-in me-1"></i>
+                  <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip"
+                    data-bs-placement="bottom" title="Logout">Logout</p>
+                </a>
+              </li>
+              {% endif %}
+
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+    </div>
+  </div>
+</div>
